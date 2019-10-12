@@ -4,8 +4,9 @@
 
 파이썬의 특징
 
-- 스크립트 언어
+- 스크립트 언어 : 컴파일 없음. 코드를 컴파일 없이 실행. 컴파일 언어보다 느림. 
 - 동적 타이핑 언어 : 선언과 변수를 정의하는 과정에서 타입을 신경쓸 필요가 없다는 장점.
+- 절차적 프로그래밍 : 코드를 순서에 따라 실행함.
 
 ## 0.1. python 설치.
 
@@ -883,7 +884,7 @@ switch - case 문이 없다. (비슷하게 쓰는 걸 알려드립니다.)
 
 
 
-### 2.2. if 문
+### 2.2. if 문.
 
 ```python
 if 조건문:
@@ -911,7 +912,7 @@ else :
 
 
 
-## 2.3. 반복문 for
+## 2.3. 반복문 for.
 
 python 에서는 iterable한 객체 라는 개념이 있다. for문은 이 iterable객체를 이용하여 반복문을 실행한다.
 
@@ -946,7 +947,7 @@ for i in range(0,10):
 
 
 
-### 2.3.1. range 함수
+### 2.3.1. range 함수.
 
 python 의 range함수는 range라는 객체를 생성하는 함수이다. range 또한 iterable한 객체로 for문에서 원하는 횟수 만큼 반복 할 때 많이 사용한다.
 
@@ -958,7 +959,7 @@ python 의 range함수는 range라는 객체를 생성하는 함수이다. range
 
 
 
-### 2.3.2. break 문
+### 2.3.2. break 문.
 
 break 문은 실행 시 해당 for문(혹은 while 문을 빠져 나간다.)
 
@@ -982,7 +983,7 @@ for coin in coins:
 
 
 
-### 2.3.3. continue 문
+### 2.3.3. continue 문.
 
 continue 문은 항목(요소)의 연산을 건너뛴다.
 
@@ -1012,7 +1013,7 @@ for coin in coins:
 
 
 
-### 2.3.4. for else 문
+### 2.3.4. for else 문.
 
 ```python
 for c in 'python':
@@ -1032,7 +1033,7 @@ finish!!
 
 
 
-### 2.3.5. 리트스 내포 확장 [expr for x in iterable객체 if 조건식]
+### 2.3.5. 리트스 내포 확장. [expr for x in iterable객체 if 조건식]
 
 ```python
 >>> [x for x in range(1,10) if x%2==0]
@@ -1044,7 +1045,7 @@ finish!!
 
 
 
-## 2.4. while 문
+## 2.4. while 문.
 
 ```python
 while 조건문:
@@ -1054,7 +1055,860 @@ while 조건문:
 
 
 
+# 3. Python 함수.
 
+반복적으로 행해려는 일련의 과정들을 묶어서 하나의 과정으로 만들었다고 생각하면 쉽다.
+
+
+
+## 3.1. Python 함수 기초.
+
+### 3.1.1. 기본적인 함수 정의 방법.
+
+- Python에서 함수를 정의 하는 방법
+
+  ```python
+  '''
+  def 함수이름(형식인수(parameter)....):
+      실행문
+  '''
+  def func1(x,y):
+      print(x,y)
+  ```
+
+- 기본값 주워주기 (default값 지정.)
+
+  ```python
+  def func1(x,y=10):
+      print(x,y)
+  ```
+
+  > 함수를 사용 할 때, y의 값을 생략하면 y를 10으로 계산함. 
+  > **기본값이 주워진 경우 반드시 다른 파라미터보다 오른쪽에 정의 되어야 함.**
+
+
+### 3.1.2. 기본적인 함수 사용 방법.
+
+- Python함수 사용법 - 순서대로(위치인수)
+
+  ```python
+  def func1(year, month, day):
+      print(f'{year}년 {month}월 {day}일')
+  
+  func1(100,10000,20000)
+  '''결과
+  100년 10000월 20000일
+  '''
+  ```
+
+- Python함수 사용법 - 인자의 이름에 따라 정의(키워드인수)
+
+  ```python
+  def func1(year, month, day):
+      print(f'{year}년 {month}월 {day}일')
+  
+  func1(day=100,year=10000,month=20000)
+  '''결과
+  100년 10000월 20000일
+  '''
+  ```
+  
+- 기본값이 주워진 경우.
+
+  ```python
+  def func1(year, month, day=1):
+      print(f'{year}년 {month}월 {day}일')
+  
+  func1(year=10000,month=20000)
+  func1(100,20000)
+  '''결과
+  10000년 20000월 1일
+  100년 20000월 1일
+  '''
+  ```
+
+## 3.2. 가변인수를 받는 함수. (인수의 개수가 미정인 경우)
+
+함수에 전달할 인수의 개수가 미정인 상태인 인수(argument)를 넣을 경우.
+parameter에 '\*'와 '\*\*'를 이용해서 만들 수 있다.
+'\*'는 튜플 형태로 전달.
+'\*\*'는 함수내부에서 dict 형식으로 사용한다. 
+단, 다른 인자를 포함하여 정의 할 경우에는 '\*', '\*\*' 가 붙은 경우 뒤쪽으로 두어야 한다. (앞쪽에 두면 에러 발생)
+
+- 가변인수인 함수 정의 - 튜플.
+
+  ```python
+  def argsfunc(*args):
+      i=0
+      for x in args:
+          i+=1
+      print("인수의 갯수 : %d" % i)
+      print(args)
+  
+  argsfunc(1,2,(3,4,5))
+  
+  print("======")
+  
+  argsfunc(1,[7,55],"test", {'a':1, 'b':100})
+  
+  
+  '''결과
+  인수의 갯수 : 3
+  (1, 2, (3, 4, 5))
+  ======
+  인수의 갯수 : 4
+  (1, [7, 55], 'test', {'a': 1, 'b': 100})
+  '''
+  ```
+
+- 가변인수인 함수 정의 - dict.
+
+  ```python
+  def dictfunc(**dicts):
+      i=0
+      for x in dicts.keys():
+          i+=1
+          print(f'{x} - {dicts.get(x)}')
+      print("인수 개수 : %d" % i)
+      print(dicts)
+  
+  dictfunc(a=1, b=3, c=7)
+  
+  
+  '''결과
+  a - 1
+  b - 3
+  c - 7
+  인수 개수 : 3
+  {'a': 1, 'b': 3, 'c': 7}
+  '''
+  ```
+
+
+
+## 3.3. 반환 return.
+
+함수는 반드시 되돌려주는 값이 있다. 정의하지 않으면 None을 반환한다.
+
+
+1. 정의하지 않으면 None 반환
+2. **다른 값을 정의**하고, **함수를 종료**하는 기능으로 **return**을 사용한다.
+   (함수 안에서 return 다음에 쓴 내용은 실행되지 않는다.)
+3. 반환하는 값은 반드시 1개이다.
+   다만 ","를 이용할 경우 튜플로 묶어 1개의 튜플에 여러개의 결과를 반환가능하다.
+
+
+
+## 3.4. 영역과 이름 공간.
+
+함수의 내부와 외부는 분리된 공간으로 생각해야 한다.
+
+
+
+### 3.4.1. 전역 영역과 지역 영역.
+
+1. 함수 내부에서 정의한 값은 외부에서 사용이 불가능하다.
+2. 함수 내부에서 외부의 숫자를 변경은 global변수(전역변수)만 가능하다.
+   \*global변수는 실행되고 있는 영역 전체에서 사용가능한 변수를 뜻한다.
+   단, 일반 변수도 정의된 값이 있다면 사용은 가능하다.
+
+| 특징             | 전역변수<br />(함수 밖, 전역 이름 공간에서 정의) | 지역변수<br />(함수 안, 지역 이름 공간에서 정의) |
+| ---------------- | ------------------------------------------------ | ------------------------------------------------ |
+| 함수 안에서 읽기 | 가능                                             | 가능                                             |
+| 함수 안에서 수정 | 불가(단, global 키워드 사용시 가능.)             | 가능                                             |
+| 함수 밖에서 읽기 | 가능                                             | 불가능                                           |
+| 함수 밖에서 수정 | 가능                                             | 불가능                                           |
+
+- global 키워드 사용 방법.
+
+  ```python
+  a = 1
+  
+  def normaltest(z):
+      a = z + 2
+      return a
+  
+  b = normaltest(3)
+  print(a)
+  print(b)
+  
+  def globaltest(z):
+      global a
+      a = z + 4
+      return a
+  
+  c = globaltest(5)
+  print(a)
+  print(c)
+  
+  print("==================")
+  print(locals())
+  
+  '''결과
+  1
+  5
+  9
+  9
+  ==================
+  {'__name__': '__main__', '__doc__': None, '__package__': None, '__loader__': <_frozen_importlib_external.SourceFileLoader object at 0x0000023FBDDAE048>, '__spec__': None, '__annotations__': {}, '__builtins__': <module 'builtins' (built-in)>, '__file__': '1.py', '__cached__': None, 'a': 9, 'normaltest': <function normaltest at 0x0000023FBDD93948>, 'b': 5, 'globaltest': <function globaltest at 0x0000023FBDDB19D8>, 'c': 9}
+  '''
+  ```
+
+  **locals()**
+  
+  >각 영역의 이름공간을 dict형식으로 반환한다. 수정도 가능하다. 다만 프로그램은 이 영역에서 값을 사용하기 때문에 결과가 바뀔 수 있으니 주의.
+  >
+  >- '\_\_name\_\_':'\_\_main\_\_'
+  >  해당 프로그램이 직접 호출되었음을 의미한다. 만약 외부에서 불러온 경우(패키지나 모듈로써 가져온 경우)해당 이름으로 나타난다. 패키지와 모듈에서 더 상세히 다룸.
+  >- '\_\_file\_\_':'1.py'
+  >  실행시킨 파일의 이름.
+  >- '\_\_builtins\_\_'
+  >  파이썬에 내장된 코드 집합. 모든 파이썬 프로그램은 시작과 동시에 builtins의 내부를 참조 할 수 있도록 처리됨.
+  >- 그 외에 캐쉬, 영역에서 지정한 변수명에 대한 값과 메모리 주소, 패키지, 등 다양한 정보가 나타난다.
+
+
+
+### 3.4.2. 내장 함수와 내장 영역.
+
+ 여지껏 정의하지 않고 사용한 함수들은 전부 내장 영역에 들어있는 내장 함수에서 온 것이다.
+내장영역은 '\_\_builtins\_\_'에 있으며, 파이썬 프로그램은 시작과 동시에 builtins의 내부를 참조하도록 되어 내장 함수가 사용이 가능한 것이다.
+
+
+
+### 3.4.3. Python 스코핑룰.
+
+지역, 전역, 내장 영역은 서로 계층적으로 분리된 영역.
+스코핑룰은 여기서 하나의 영역에서 다른 영역의 변수를 참조할 때 따르는 규칙.
+
+|           |      |                |
+| --------- | ---- | -------------- |
+| 내장 영역 | ▶    | 내장 이름 공간 |
+|           |      | ▲              |
+| 전역 영역 | ▶    | 전역 이름 공간 |
+|           |      | ▲              |
+| 지역 영역 | ▶    | 지역 이름 공간 |
+
+위 표와 같이 없으면 찾아가는 영역.
+지역 영역에서 지역 이름 공간을 먼저 찾고, 없으면 전역 이름 공간, 거기서도 없으면 내장 이름 공간을 찾음.
+
+
+
+## 3.5. 람다 표현식.
+
+함수는 각각 이름과 실행할 내용을 정의하지만 람다식은 이름을 정의하지 않음. 이름이 없기에 익명함수라 함. 표현 식은 `lambda 인수 : 표현식` 을 기본으로 함. 다른 명령을 주지 않아도 결과값을 반환.
+
+- 람다식 정의
+
+  ```python
+  >>> (lambda x : x**2)(2)
+  9
+  ```
+
+- 람다식에 이름 주기
+
+  ```python
+  >>> lambda_func = lambda x : x**2
+  >>> lambda_func(3)
+  9
+  ```
+
+- 람다식 응용 - 콜백함수
+
+  ```python
+  li = [9,1,7,3,4,2,5,6,8]
+  
+  # 오름차순 정렬 li의 각 요소를 x로 보고, x 순서로 오름차순 정렬
+  li.sort(key=lambda x: x)
+  print(li)
+  
+  # 내림차순 정렬 li의 각 요소를 x로 보고, -x 순서로 오름차순 정렬
+  li.sort(key=lambda x: -x)
+  print(li)
+  
+  # 3으로 나눈 나머지 오름차순 정렬 li의 각 요소를 x로 보고, x%3 순서로 오름차순 정렬
+  li.sort(key=lambda x: x%3)
+  print(li)
+  
+  
+  '''결과
+  [1, 2, 3, 4, 5, 6, 7, 8, 9]
+  [9, 8, 7, 6, 5, 4, 3, 2, 1]
+  [9, 6, 3, 7, 4, 1, 8, 5, 2]
+  '''
+  ```
+
+- 람다식 응용 - 람다식을 사용한 함수프로그래밍
+
+  ```python
+  def func1(st, option=0):
+      if option:
+          s = st.upper()
+          print(s)
+      else:
+          s = st.lower()
+          print(s)
+  
+  def func2(st, option=0):
+      print(option and (lambda s:s.upper())(st) or (lambda s:s.lowwer())(st))
+      # option and (대문자로 바꾸기) or (소문자로 바꾸기)
+  
+  # 두 함수의 기능은 같다.
+  ```
+
+
+
+## 3.6. 클로저. (나는 과연 함수를 불러왔을까?)
+
+클로저 : 함수와 함수가 처음 정의된 환경을 아우르는 말.
+
+다른 함수를 쓸 때 클로저가 어떠한 경우에 필요한 개념인지 알 필요가 있다.
+
+ 만약 아래의 함수와 같이 정보(total)를 공유하는 코드를 작성했다고 가정. (초기 의도는 locSum과 yoursum의 total을 구분하려는 의도였다고 가정.)
+
+```python
+total=0
+def locSum():
+    global total
+    total += 1
+    print(total)
+
+def yoursum():
+    global total
+    total += 3
+    print(total)
+
+locSum() # 1
+locSum() # 2
+yoursum() # 5
+locSum() # 6
+yoursum() # 9
+yoursum() # 12
+locSum() # 13
+print(f'total = {total}')
+
+'''결과
+1
+2
+5
+6
+9
+12
+13
+total = 13
+'''
+```
+
+ 위 코드의 경우 컴파일 에러가 없기 때문에 오류를 착기 굉장히 번거로움. 하나하나 중간 값을 받아보면서 오류를 찾아야하는 어려움도 있음. 이러한 문제를 해결하기 위해 존재하는 것이 클로저. (사실 함수 실행에 있어 항상 존재했지만 몰랐을 뿐.)
+
+※ 클로저을 이해하기 위해 필요한 개념
+  모듈 : 파이썬 코드로 작된 파일. 외부에서 이 모듈을 불러와서 내용에 있는 기능을 사용할 수 있음.
+
+A.py
+```python
+var=12345
+def a():
+    print(var)
+```
+
+B.py
+```python
+import A
+
+var=54321
+def b():
+    print(var)
+
+A.a()
+b()
+
+'''결과
+12345
+54321
+'''
+```
+
+결과를 보면 A.a()에서 처음 함수가 만들어진 환경의 결과값으로 가져오는 것을 알 수 있다.
+
+
+
+아래의 코드와 결과를 보고 다른 상황에서 클로저가 어떠한 것인지 알 수 있다.
+
+```python
+var = 0
+
+def outter():
+    var = 74
+    def inner():
+        nonlocal var    # var = 7423 의 var을 불러옴.
+        var+=1
+        print(var)
+    return inner
+clsr1=outter()
+clsr2=outter()
+clsr1() # 75
+clsr1() # 76
+clsr1() # 77
+print()
+clsr2() # 75
+clsr2() # 76
+clsr2() # 77
+
+'''결과
+75
+76
+77
+
+75
+76
+77
+'''
+```
+
+위 결과를 통해서 알 수 있는 것은 2개 이다. 
+
+1. 모듈에서 불러들이거나, 반환 혹은 인수로 전달되면 자신이 정의된 환경도 가져감.
+   **클로저가 넘어가는 것이지 함수가 넘어가는 것이 아니다.**
+2. clsr1, clsr2이 서로의 값에 영향을 주지 않는다. (독립적 동작)
+   호출될 때 마다 지역 이름공간이 새로 만들어짐. **반환된 inner함수의 클로저가 다름.**
+
+
+
+## 3.7. 장식자 (decorator) / 꾸미는 기능.
+
+ 만약 함수를 여러개 써야하는데 각각의 함수마다 같은 기능을 추가로 줘야한다면?
+하나하나 입력하는 것은 굉장히 번거롭고 난잡함.
+=> 이것을 위해서 필요한 기능, 데코레이터
+
+- 데코레이터 메커니즘
+  - 장식자는 기능을 추가할 함수를 인수로 받음.
+  - 장식자의 내부에 추가될 기능을 함수로 정의.
+  - 인수로 받은 함수를 내부에 정의된 함수에서 적절히 호출.
+  - 내부 함수를 반환. (클로저에서 새로운 함수로 탄생함.)
+
+- 데코레이터 정의 및 사용 방법 1. 함수 정의를 이용.
+
+```python
+import datetime
+
+def de(): # 꾸며질 함수
+    print("Hello Python !")
+
+def deco(func): # 꾸미는 기능을 정의
+    def new_func():
+        print('today', datetime.date.today())
+        func() # 인수로 받은 함수가 사용되는 자리.
+    return new_func # 함수를 반환하여 사용 가능하도록 함.
+
+deco_func1 = deco(de)
+deco_func1()
+
+'''결과
+today YYYY-MM-DD
+Hello Python !
+'''
+```
+
+
+
+- 데코레이터 정의 및 사용 방법 2. 장식자 문법 사용.
+
+```python
+import datetime
+
+def deco(func): # 꾸미는 기능을 정의
+    def new_func():
+        print('today', datetime.date.today())
+        func() # 인수로 받은 함수가 사용되는 자리.
+    return new_func # 함수를 반환하여 사용 가능하도록 함.
+
+@deco
+def de(): # 꾸며질 함수
+    print("Hello Python !")
+
+@deco
+@deco # 2개 써도 된다.
+def de2(): # 꾸며질 함수
+    print("Hello Python !")
+
+de()
+de2()
+
+'''결과
+today YYYY-MM-DD
+Hello Python !
+today YYYY-MM-DD
+today YYYY-MM-DD
+Hello Python !
+'''
+```
+
+
+
+## 3.8. 제너레이터(생성자) 함수, 코루틴 함수.
+
+- 반복자 생성, 제너레이터(생성자) 함수
+
+  ```python
+  a=[1,2,3,4,5]
+  it=iter(a)
+  
+  print(it.__next__())
+  print(it.__next__())
+  print(it.__next__())
+  print(it.__next__())
+  print(it.__next__())
+  
+  def my_gen():
+      n=0
+      while n<=10:
+          yield n   # 함수 내부에서 yield라는 키워드가 사용 되면 제너레이터 함수가 됨. 함수가 대기하는 위치.
+          n+=1
+  # for문에서 반복가능한 객체를 전달하여 순회하는 것은 .__next__()를 이용함.
+  a = my_gen()
+  print(type(a))
+  print(a.__next__())
+  print(a.__next__())
+  print(a.__next__())
+  print(a.__next__())
+  print(a.__next__())
+  print(a.__next__())
+  print(a.__next__())
+  print(a.__next__())
+  print(a.__next__())
+  print(a.__next__())
+  
+  '''
+  1
+  2
+  3
+  4
+  5
+  <class 'generator'>
+  0
+  1
+  2
+  3
+  4
+  5
+  6
+  7
+  8
+  9
+  10
+  Traceback (most recent call last):
+    File "1.py", line 29, in <module>
+      print(a.__next__())
+  StopIteration
+  '''
+  ```
+
+- 코루틴 함수 (제너레이터의 한 종류) 알기전에 알아야할 루틴 개념.
+  - 메인루틴 : 프로그램에서 주축이 되는 코드들의 묶음, 흐름.
+  - 서브루틴 : 메인루틴에서 호출된 함수.
+  - 메인루틴에서 서브루틴, 코루틴을 호출하면 코드 수행권한(실행)은 넘어감. 그 동안 메인루틴은 정지.
+  
+  - 코루틴 : 서브루틴과 달리 대기상태가 존재하는 루틴. 메인루틴처럼 하나의 흐름을 가진다고 보면된다.
+  
+- 코루틴 함수 사용1.
+  ```python
+  >>> def co_routine():
+  ...     total=0
+  ...     while True:
+  ...         n=(yield) # (yield) 표현식, send를 통해서 값을 전달 받음, 전달받기 전까지 대기.
+  ...         total+=n
+  ...         print(f'total = {total}')
+  ...
+  >>> a= co_routine()
+  >>> a.__next__() # 코루틴 함수는 next를 한번만 호출함. (yield)문 전까지만 실행되기 때문.
+  >>> a.send(1) # 코루틴 함수의 yield에 값을 넘겨줌. 코루틴의 특징.
+  total = 1
+  >>> a.send(1)
+  total = 2
+  >>> a.send(3)
+  total = 5
+  >>> a.send(9)
+  total = 14
+  >>> type(a)
+  <class 'generator'> # 코루틴이 제너레이터임을 보여줌.
+  ```
+  
+- 코루틴 함수 사용2.
+  ```python
+  >>> def co_ro():
+  ...     total=0
+  ...     while True:
+  ...         n=(yield total) # 반환값을 total로 지정해줌. send 혹은 __next__에서 반환.
+  ...         total+=n
+  ...
+  >>> a=co_ro()
+  >>> a.__next__()
+  0
+  >>> a.send(5)
+  5
+  >>> a.send(7)
+  12
+  >>> a.send(9)
+  21
+  >>>
+  ```
+
+- 코루틴을 사용 예시
+
+  ```python
+  from time import sleep
+  
+  def corouA():
+      n=0
+      while True:
+          n=(yield n)
+          sleep(0.1) # 0.1초 해당 루틴 일시정지.
+          if n%10==3 or n%10==6 or n%10==9 :
+              print("A : 박수")
+          else :
+              print(f'A : {n}')
+          n+=1
+  
+  n=0
+  a=corouA()
+  a.__next__()
+  
+  while True:
+      n=a.send(n)
+      sleep(0.1)
+      if n%10==3 or n%10==6 or n%10==9 :
+          print("B : 박수")
+      else :
+          print(f'B : {n}')
+      n+=1
+  '''결과
+  A : 0
+  B : 1
+  A : 2
+  B : 박수
+  A : 4
+  B : 5
+  A : 박수
+  B : 7
+  A : 8
+  B : 박수
+  A : 10
+  B : 11
+  A : 24
+  B : 25
+  A : 박수
+  B : 27
+  A : 28
+  B : 박수
+  A : 30
+  ...
+  '''
+  ```
+
+  
+
+# 4. Python 모듈과 패키지
+ 모듈과 패키지는 외부의 파일 외부의 코드를 사용하기 위한 개념. 모든 코드를 하나의 파일에 작성하기 어렵고, 일부 재사용 가능한 코드를 따로 관리하기 위해 사용.
+모듈 : 파이썬 파일
+패키지 : 관련 모듈을 모아서 사용하는 폴더
+
+
+
+## 4.1. 모듈
+
+- import 처음
+
+  ```python
+  # test_module0.py
+  print("Hellow Python.")
+  ```
+  
+  ```python
+  # test_module_user0.py
+    import test_module
+  
+  '''결과
+  Hellow Python!!!
+  '''
+  ```
+  
+  - import
+  
+    > 외부코드를 불러와서 실행 시킬 수 있도록 해줌.
+
+- import로 모듈 내부의 기능 불러오기
+
+  ```python
+  # test_module.py
+  
+  def print_hellow_python():
+      print("Hellow Python.")
+  
+  print(__name__)
+  ```
+
+  
+  ```python
+  # test_module_user1.py
+  import test_module
+  
+  test_module.print_hellow_python()
+  
+  '''결과
+  test_module
+  Hellow Python.
+  '''
+  ```
+  ```python
+  # test_module_user2.py
+  from test_module import print_hellow_python
+  
+  print_hellow_python()
+  
+  '''결과
+  test_module
+  Hellow Python.
+  '''
+  ```
+  ```python
+  # test_module_user3.py
+  from test_module import print_hellow_python as php
+  
+  php()
+  
+  '''결과
+  test_module
+  Hellow Python.
+  '''
+  ```
+  ```python
+  # test_module_user4.py
+  import test_module, test_module0
+  
+  test_module.print_hellow_python()
+  print(__name__)
+  '''결과
+  test_module
+  Hellow Python!!!
+  Hellow Python.
+  __main__
+  '''
+  ```
+
+  - import
+  
+    > 사용할 패키지, 모듈, 클래스, 함수를 지정.
+    > 콤마(,)를 이용해서 여러개를 한번에 지정할 수 있다.
+    > 만약 *를 사용하면 모든 식별자를 불러온다.
+  
+  - from
+  
+    > 사용할 모듈, 클래스, 함수가 들어있는 클래스 혹은 모듈을 지정.
+  
+  - as
+  
+    > 사용할 기능의 이름이 긴 경우, 이름 중복이 있는 경우에 이름을 새로 정의해주는 기능.
+  
+  - \_\_name\_\_
+  
+    > 파이썬에서 자동으로 만들어지는 변수.
+    > 직접 실행시키는 경우 "\_\_main\_\_"
+    > 모듈로써 실행시키는 경우 "모듈명" 으로 지정 됨.
+
+- 모듈 검색
+
+  ```python
+  import sys
+  print(sys.path)
+  ```
+
+- 명령행 인수 전달
+
+  ```python
+  import sys
+  sys.argv # 콘솔에서 파이썬 명령어를 통해서 실행할 경우 모듈이름이 리스트의 0번째 인자로 들어감. 나머지는 띄어쓰기를 기준으로 진자를 구분해서 입력됨.
+  ```
+
+- \_\_pycache_\_
+
+  ```python
+  import py
+  ```
+
+
+
+## 4.2. 패키지
+
+- test_package 패키지 만들기
+
+  | .\test_package |
+  | -------------- |
+  | \_\_init\_\_.py<br />first_module.py<br />second_module.py |
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# 6. Python Class
+
+ 클래스는 임의의 어떠한 결과를 저장하기 위한 객체로 생각하면 된다. 예를  들어서 자동차의 경우 각 부품의 제조번호를 기록하는 경우를 생각하면 된다. 하나의 객체(자동차)에 수많은 정보(모델명, 색상, 엔진, 모터, 스프링, 제조일자 등등)이 있을 것이고, 각 "자동차마다" 따로 정보를 관리하기 위해서 사용한다고 생각하면 편하다.
+ 문제해결을 위해 필요한 하나의 분류가 되는 개념(예를 들어 자동차라는 개념)을 클래스로 정의한다.  이 클래스를 이용해서 하나의 객체(예로 내가 빌린 자동차, 객체대신 자동차의 인스턴스라고도 함.)로써 정의 하여 필요한 정보(차의 색상=흰색, 차종=아반떼)를 정의하여 관리 혹은 사용하겠다는 것이다. 중요한 것은 클래스를 사용함으로써 객체지향 프로그래밍을 하고, 이 장점을 쓴다는 것이다.
+
+- Class 정의 방법
+
+  ```python
+  class ex_Car(object) : # class에서 object를 상속 받음. 상속받지 않으려면 비우면됨.
+      def __init__(self, year, color, model, price): # 생성자에서 받아올 인자를 결정, 인스턴스를 초기화.
+          self.year = year
+          self.color = color
+          self.model = model
+          self.price = price
+      # 추가로 클래스에서 사용할 메서드를 정의할 수 있다.
+  ```
+
+  
+
+
+
+
+
+# 7. Python 예외 처리
+
+ValueError
+SyntaxError
+
+
+
+
+
+
+
+
+
+# 7. Python 데코레이터
 
 
 
