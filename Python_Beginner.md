@@ -523,7 +523,7 @@ escape할 때는 `\'` , `\"`로 쓰면 됨.
 | append(value)        | list 뒤에 value 값 추가.                                     |
 | sort()               | 순서대로 정렬.                                               |
 | reverse()            | 순서를 반대로 바꿈.                                          |
-| index(value)         | value와 같은 값을 가지는 요소가 있으면  첫 번째 인덱스 반환<br />없으면 ValueError |
+| index(value)         | value와 같은 값을 가지는 요소가 있으면  인덱스 반환<br />없으면 ValueError |
 | insert(index, value) | index에 value를 넣고 원래의 요소들은 1개씩 순서가 밀림.      |
 | remove(value)        | value와 같은 값을 가지는 요소가 있으면  첫 번째 요소 제거<br />없으면 ValueError |
 | pop(index = -1)      | index의 요소를 반환하고 삭제. index를 주지 않으면 마지막 요소. |
